@@ -1,7 +1,6 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import { Image } from "astro:assets";
-import myPortrait from "../assets/portrait.jpg";
 import ArrowSvg from "../components/ArrowSvg.astro";
 ---
 
@@ -23,7 +22,7 @@ import ArrowSvg from "../components/ArrowSvg.astro";
             <a
               class="flex items-center font-medium p-3 dark:bg-slate-100 hover:dark:bg-slate-200 bg-slate-500 hover:bg-slate-400 shadow hover:dark:shadow-slate-100/50 focus:outline-none font-medium text-zinc-900 rounded"
               href="/me"
-              ><span class="pr-2" transition:name="bio-title">About me</span><ArrowSvg width="1rem" height="1rem"/>
+              ><span class="pr-2" transition:name="bio-title">About me</span><ArrowSvg width="1rem" height="1rem" classes="" />
             </a>
           </div>
         </div>
