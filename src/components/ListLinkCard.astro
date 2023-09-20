@@ -1,0 +1,36 @@
+---
+interface Props {
+  title: string;
+  body: string;
+  href: string;
+  name: string;
+}
+
+const { href, title, body, name } = Astro.props;
+---
+
+<li
+  class="bg-slate-50 hover:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-900 rounded-lg w-64 h-64 ring-1 ring-slate-900/5 shadow hover:shadow-xl"
+>
+  <a class="flex flex-wrap px-6 py-8" href={href} title={title}>
+    <h3
+      class="flex items-center text-slate-900 dark:text-white text-base/2 font-medium tracking-tight"
+    >
+      <slot />
+      <span
+        class="pl-2"
+        transition:name={name}
+        transition:persist
+        transition:animate="initial">{title}</span
+      >
+    </h3>
+    <p class="text-slate-500 dark:text-slate-400 mt-2 text-sm">
+      {body}
+    </p>
+  </a>
+</li>
+<style>
+  li > a:focus {
+    border-bottom: none;
+  }
+</style>

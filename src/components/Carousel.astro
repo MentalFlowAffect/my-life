@@ -1,0 +1,165 @@
+---
+interface Props {
+  items: Array<{ title: string; url: string }>;
+}
+
+const { items } = Astro.props as Props;
+---
+
+<!-- Slider container -->
+<carousel-slider>
+  <div class="slider">
+    {
+      items.map((item) => {
+        return (
+          <div class="slide">
+            <div class="w-full h-full flex items-center justify-center bg-slate-500 dark:bg-slate-300">
+            <img src={item.url} alt={item.title} />
+            </div>
+          </div>
+        );
+      })
+    }
+
+    <!-- Control buttons -->
+    <button class="btn btn-next">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        height="1rem"
+        width="1rem"
+        viewBox="0 0 320 512"
+        ><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+        <path
+          d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"
+        ></path></svg
+      >
+    </button>
+    <button class="btn btn-prev">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        height="1rem"
+        width="1rem"
+        viewBox="0 0 320 512"
+        ><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+        <path
+          d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l192 192c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256 246.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192z"
+        ></path></svg
+      ></button
+    >
+  </div>
+</carousel-slider>
+
+<script>
+  class Carousel extends HTMLElement {
+    constructor() {
+      super();
+      // Select all slides
+      const slides = this.querySelectorAll(".slide");
+
+      // loop through slides and set each slides translateX
+      slides.forEach((slide, indx) => {
+        slide.style.transform = `translateX(${indx * 100}%)`;
+      });
+
+      // select next slide button
+      const nextSlide = this.querySelector(".btn-next");
+
+      // current slide counter
+      let curSlide = 0;
+      // maximum number of slides
+      let maxSlide = slides.length - 1;
+
+      // add event listener and navigation functionality
+      nextSlide.addEventListener("click", function () {
+        // check if current slide is the last and reset current slide
+        if (curSlide === maxSlide) {
+          curSlide = 0;
+        } else {
+          curSlide++;
+        }
+
+        // move slide by -100%
+        slides.forEach((slide, indx) => {
+          slide.style.transform = `translateX(${100 * (indx - curSlide)}%)`;
+        });
+      });
+
+      // select next slide button
+      const prevSlide = this.querySelector(".btn-prev");
+
+      // add event listener and navigation functionality
+      prevSlide.addEventListener("click", function () {
+        // check if current slide is the first and reset current slide to last
+        if (curSlide === 0) {
+          curSlide = maxSlide;
+        } else {
+          curSlide--;
+        }
+
+        // move slide by 100%
+        slides.forEach((slide, indx) => {
+          slide.style.transform = `translateX(${100 * (indx - curSlide)}%)`;
+        });
+      });
+    }
+  }
+
+  // Tell the browser to use our AstroHeart class for <astro-heart> elements.
+  customElements.define("carousel-slider", Carousel);
+</script>
+
+<style>
+  .slider {
+    width: 100%;
+    max-width: 800px;
+    height: 350px;
+    position: relative;
+    overflow: hidden; /* <===  */
+    border-radius: 15px;
+  }
+
+  .slide {
+    width: 100%;
+    max-width: 800px;
+    height: 350px;
+    position: absolute;
+    transition: all 0.5s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .slide > div > img {
+    height: 100%;
+    max-height: 350px;
+    object-fit: contain;
+  }
+
+  .btn {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    padding: 10px;
+    border: none;
+    border-radius: 50%;
+    z-index: 10px;
+    cursor: pointer;
+    background-color: #fff;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .btn:active {
+    transform: scale(1.1);
+  }
+  .btn-prev {
+    top: 45%;
+    left: 2%;
+  }
+
+  .btn-next {
+    top: 45%;
+    right: 2%;
+  }
+</style>

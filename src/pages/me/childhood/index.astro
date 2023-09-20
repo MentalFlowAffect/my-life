@@ -1,0 +1,84 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import ControllerSvg from "../../../components/ControllerSvg.astro";
+import ArrowSvg from "../../../components/ArrowSvg.astro";
+
+import { isLoggedIn } from "../../../utils/auth.js";
+import Carousel from "../../../components/Carousel.astro";
+
+import { isLoggedIn } from "../../../utils/auth.js";
+
+const cookies = Astro.request.headers.get("cookie");
+if (!isLoggedIn(cookies)) {
+  return Astro.redirect("/signin");
+}
+
+const vermontCarouselItems = [
+  { url: "/vt-fall.jpg", title: "Fall in Vermont" },
+  { url: "/vt-winter.jpg", title: "Winter in Vermont" },
+  { url: "/vt-skiing.jpg", title: "Skiing in Vermont" },
+];
+
+const gamingCarouselItems = [
+  { url: "/aoe2.png", title: "Age of Empires II" },
+  { url: "/osrs.png", title: "Oldschool Runescape" },
+  { url: "/halo3.jpg", title: "Halo 3" },
+];
+
+const sportsCarouselItems = [
+  { url: "/farpostfc.png", title: "Farpost FC" },
+  { url: "/soccer.jpg", title: "Soccer" },
+  { url: "/baseball.jpg", title: "Baseball" },
+];
+---
+
+<Layout title="My Childhood">
+  <main class="flex justify-center p-4 w-100 dark:text-white">
+    <div class="flex flex-wrap w-3/4">
+      <div class="flex justify-between w-full py-2">
+        <a href="/me" class="py-2 pr-2 hover:underline flex items-center">
+          <ArrowSvg
+            width="1rem"
+            height="1rem"
+            classes="dark:fill-white rotate-180"
+          />
+          <span class="pl-2" transition:name="bio-title">About me</span>
+        </a>
+        <a href="/me/school" class="py-2 pr-2 hover:underline flex items-center">
+            <span transition:name="education" class="pr-2">My Education</span>
+            <ArrowSvg
+              width="1rem"
+              height="1rem"
+              classes="dark:fill-white"
+            />
+          </a>
+      </div>
+      <ControllerSvg width="2rem" height="2rem" classes="dark:fill-white" />
+      <h1 transition:name="childhood" class="text-2xl pl-2">My Childhood</h1>
+      <div class="w-full divide-y divide-red-300 pt-4">
+        <div class="pb-4">
+          <h3 class="text-xl pb-2">Vermont</h3>
+          <Carousel items={vermontCarouselItems} />
+          <p class="pt-1">
+            Born & raised in the Green Mountain State (yeah, it's that tiny
+            state directly connected to the east side of New York!).
+          </p>
+        </div>
+        <div class="pt-3 pb-4">
+          <h3 class="text-xl pb-2">Gaming</h3>
+          <Carousel items={gamingCarouselItems} />
+          <p class="pt-1">
+            I may have spent way too much time gaming as a kid...
+          </p>
+        </div><div class="pt-3 pb-4">
+          <h3 class="text-xl pb-2">Sports</h3>
+          <Carousel items={sportsCarouselItems} />
+          <p class="pt-1">
+            If I wasn't gaming, you'd probably see me playing baseball or
+            soccer!
+          </p>
+        </div>
+      </div>
+    </div>
+  </main>
+</Layout>

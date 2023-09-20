@@ -1,0 +1,72 @@
+---
+import GraduationHatSvg from "../../../components/GraduationHatSvg.astro";
+import ArrowSvg from "../../../components/ArrowSvg.astro";
+import Layout from "../../../layouts/Layout.astro";
+import Timeline from "../../../components/Timeline.astro";
+
+import { isLoggedIn } from "../../../utils/auth.js";
+
+const cookies = Astro.request.headers.get("cookie");
+if (!isLoggedIn(cookies)) {
+  return Astro.redirect("/signin");
+}
+
+const eduationTimeline = [
+  {
+    time: "Elementary School",
+    title: "GEMS",
+    content:
+      "I began my education journey in Kindergarten (I got to skip Pre-school!). During middle school, I really began to enjoy sports - playing soccer during recess & as part of the school atheletics program, listening to stories (my teacher - Ms. Neary - would read Harry Potter to us in 3rd & 4th grade), & surprisingly math.",
+  },
+  {
+    time: "Middle School",
+    title: "GEMS",
+    content:
+      "I continued to attend GEMS for 5th through 8th grade. During these years I continued to enjoy math, play soccer & baseball, and also was able to win our yearly school-wide chess tournament 3 years in a row!",
+  },
+  {
+    time: "High School",
+    title: "Bellows Free Academy",
+    content:
+      "I was fortunate to have school choice when going to highschool since my town did not have one. I ended up choosing BFA since a majority of my previous class mates went here. I continued to play soccer & enjoying math all throughout highschool.",
+  },
+  {
+    time: "College",
+    title: "University of Vermont",
+    content:
+      "I ended up staying in Vermont for college - completing my undergranduate degree at UVM. I majored in math (no surprise if you were following above, right?) with a minor in computer science.",
+  },
+];
+---
+
+<Layout title="My Schooling">
+  <main class="flex justify-center p-4 w-100 dark:text-white">
+    <div class="flex flex-wrap w-3/4">
+      <div class="flex justify-between w-full py-2">
+        <a
+          href="/me/childhood"
+          class="py-2 pr-2 hover:underline flex items-center"
+        >
+          <ArrowSvg
+            width="1rem"
+            height="1rem"
+            classes="dark:fill-white rotate-180"
+          />
+          <span class="pl-2" transition:name="childhood">My Childhood</span>
+        </a>
+        <a
+          href="/me/career"
+          class="py-2 pr-2 hover:underline flex items-center"
+        >
+          <span class="pr-2" transition:name="career">My Career</span>
+          <ArrowSvg width="1rem" height="1rem" classes="dark:fill-white" />
+        </a>
+      </div>
+      <GraduationHatSvg width="2rem" height="2rem" classes="dark:fill-white" />
+      <h1 transition:name="education" class="text-2xl pl-2">My Education</h1>
+      <div class="w-full pt-4 px-2">
+        <Timeline items={eduationTimeline} />
+      </div>
+    </div>
+  </main>
+</Layout>

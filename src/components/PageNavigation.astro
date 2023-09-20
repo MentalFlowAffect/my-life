@@ -1,0 +1,189 @@
+---
+import SunSvg from "../components/SunSvg.astro";
+import MoonSvg from "../components/MoonSvg.astro";
+---
+
+<div class="flex p-2 bg-gray-100 dark:bg-slate-700">
+  <div class="w-4/12 flex">
+    <nav class="flex items-center">
+      <button data-id="mobile-menu-button" class="mobile-menu-button">
+        <span class="bg-slate-700 dark:bg-white"></span>
+        <span class="bg-slate-700 dark:bg-white"></span>
+        <span class="bg-slate-700 dark:bg-white"></span>
+      </button>
+    </nav>
+  </div>
+
+  <div class="w-4/12 flex justify-center">
+    <a
+      href="/"
+      class="flex rounded-full px-3 py-1 text-white dark:text-slate-900 bg-slate-800 dark:bg-gray-100 text-lg hover:shadow-md heading"
+    >
+      <div class="flex">
+        <div class="font-bold">J</div>
+        <div>a</div>
+        <div>c</div>
+        <div>o</div>
+        <div>b</div>
+      </div>
+
+      <div class="flex">
+        <div class="font-bold">L</div>
+        <div>a</div>
+        <div>r</div>
+        <div>a</div>
+        <div>m</div>
+        <div>e</div>
+        <div>e</div>
+      </div>
+    </a>
+  </div>
+
+  <div class="w-4/12 flex">
+    <div class="ml-auto flex items-center">
+      <button
+        class="btn rounded flex items-center justify-center h-6 w-6 p-1 mr-2 group"
+        data-id="light-mode-button"
+      >
+        <SunSvg
+          width="1.25rem"
+          height="1.25rem"
+          classes="fill-zinc-900 dark:fill-gray-100 group-hover:fill-yellow-400"
+        />
+      </button><button
+        class="btn rounded flex items-center justify-center p-1 h-6 w-6 group"
+        data-id="dark-mode-button"
+      >
+        <MoonSvg
+          width="1.25rem"
+          height="1.25rem"
+          classes="fill-zinc-900 group-hover:fill-gray-500"
+        />
+      </button>
+    </div>
+  </div>
+
+  <style>
+    .button-menu {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      width: 1.75rem;
+      height: 1.5rem;
+    }
+
+    .button-menu > span {
+      width: 90%;
+      height: 0.175rem;
+      position: absolute;
+      left: 5%;
+      border-radius: 0.25rem;
+    }
+
+    .button-menu > span:first-child {
+      top: 0.15rem;
+    }
+
+    .button-menu > span:nth-child(2) {
+      top: 0.675rem;
+    }
+
+    .button-menu > span:nth-child(3) {
+      top: 1.175rem;
+    }
+
+    .heading > div {
+      transition: padding 300ms ease-in;
+      flex-flow: row;
+    }
+
+    .heading:hover > div:first-child {
+      padding-right: 0.5rem;
+    }
+
+    .heading > div > div:first-child {
+      font-size: 1.5rem;
+    }
+    .heading > div > div {
+      transition:
+        flex-grow,
+        opacity,
+        max-width 300ms ease-in;
+      font-size: 1rem;
+    }
+
+    .heading > div > div:not(:first-child) {
+      flex-grow: 0.00001;
+      max-width: 0;
+      opacity: 0;
+    }
+
+    .heading:hover > div > div:not(:first-child) {
+      flex-grow: auto;
+      max-width: 1rem;
+      opacity: 1;
+    }
+  </style>
+</div>
+
+<script is:inline>
+  (() => {
+    document
+      .querySelector('[data-id="mobile-menu-button"]')
+      .addEventListener("click", () => {
+        const mobileMenu = document.querySelector('[data-id="mobile-menu"]');
+        mobileMenu.style.display =
+          mobileMenu.style.display === "none" ? "" : "none";
+      });
+
+    document
+      .querySelector('[data-id="light-mode-button"]')
+      .addEventListener("click", (e) => {
+        localStorage.setItem("theme", "light");
+        setThemeMode();
+      });
+
+    document
+      .querySelector('[data-id="dark-mode-button"]')
+      .addEventListener("click", (e) => {
+        localStorage.setItem("theme", "dark");
+        setThemeMode();
+      });
+
+    const theme = () => {
+      if (
+        typeof localStorage !== "undefined" &&
+        localStorage.getItem("theme")
+      ) {
+        return localStorage.getItem("theme");
+      }
+      if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+        return "dark";
+      }
+      return "light";
+    };
+
+    const setThemeMode = () => {
+      if (theme() === "light") {
+        const lightModeIcon = [
+          ...document.querySelector('[data-id="light-mode-button"]').children,
+        ][0];
+        lightModeIcon.classList.add("fill-yellow-400");
+        lightModeIcon.classList.remove("fill-zinc-900");
+
+        document.body.classList.remove("dark");
+      } else {
+        const lightModeIcon = [
+          ...document.querySelector('[data-id="light-mode-button"]').children,
+        ][0];
+        lightModeIcon.classList.remove("fill-yellow-400");
+        lightModeIcon.classList.add("fill-zinc-900");
+        document.body.classList.add("dark");
+      }
+    };
+    setThemeMode();
+    // Runs on view transitions navigation
+    document.addEventListener("astro:after-swap", setThemeMode);
+  })();
+</script>

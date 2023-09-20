@@ -1,0 +1,78 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import ListLinkCard from "../../components/ListLinkCard.astro";
+
+import ControllerSvg from "../../components/ControllerSvg.astro";
+import GraduationHatSvg from "../../components/GraduationHatSvg.astro";
+import LaptopFileSvg from "../../components/LaptopFileSvg.astro";
+import GolfTeeSvg from "../../components/GolfTeeSvg.astro";
+import ArrowSvg from "../../components/ArrowSvg.astro";
+
+import { isLoggedIn } from "../../utils/auth.js";
+
+const cookies = Astro.request.headers.get("cookie");
+if (!isLoggedIn(cookies)) {
+  return Astro.redirect("/signin");
+}
+---
+
+<Layout title="About Me">
+  <main class="flex justify-center p-4 w-100 dark:text-white">
+    <div class="flex flex-wrap w-3/4">
+      <div class="w-full pb-2">
+        <a href="/" class="py-2 pr-2 hover:underline flex items-center">
+          <ArrowSvg
+            width="1rem"
+            height="1rem"
+            classes="dark:fill-white rotate-180"
+          />
+          <span class="pl-2" transition:name="home-bio-title">Home</span>
+        </a>
+      </div>
+      <h1
+        class="text-2xl px-4 py-4 dark:text-white text-align-start w-full"
+        transition:name="bio-title"
+      >
+        About me
+      </h1>
+      <ul role="list" class="flex flex-wrap items-stretch justify-center gap-4">
+        <ListLinkCard
+          href="/me/childhood"
+          title="My Childhood"
+          body="Take a walk down memory lane with me. Don't we all miss those times where there was nothing to worry about?  Take a few moments to learn more about my childhood."
+          name="childhood"
+        >
+          <ControllerSvg width="2rem" height="2rem" classes="dark:fill-white" />
+        </ListLinkCard>
+        <ListLinkCard
+          href="/me/school"
+          title="My Education"
+          body="Supercharge your project with new frameworks and libraries."
+          name="education"
+        >
+          <GraduationHatSvg
+            width="2rem"
+            height="2rem"
+            classes="dark:fill-white"
+          />
+        </ListLinkCard>
+        <ListLinkCard
+          href="/me/career"
+          title="My Career Journey"
+          body="Explore a galaxy of community-built starter themes."
+          name="career"
+        >
+          <LaptopFileSvg width="2rem" height="2rem" classes="dark:fill-white" />
+        </ListLinkCard>
+        <ListLinkCard
+          href="/me/hobbies"
+          title="My Hobbies!"
+          body="What I enjoy to doing"
+          name="hobbies"
+        >
+          <GolfTeeSvg width="2rem" height="2rem" classes="dark:fill-white" />
+        </ListLinkCard>
+      </ul>
+    </div>
+  </main>
+</Layout>

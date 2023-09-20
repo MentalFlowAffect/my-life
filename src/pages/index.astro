@@ -1,0 +1,33 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { Image } from "astro:assets";
+import myPortrait from "../assets/portrait.jpg";
+import ArrowSvg from "../components/ArrowSvg.astro";
+---
+
+<Layout title="Home - Welcome">
+  <main class="flex lg:max-w-3xl md:max-w-xl m-auto py-12 px-8 dark:text-white">
+    <ul role="list" class="flex flex-wrap gap-4 py-8 w-full">
+      <li class="flex w-full">
+        <Image
+          src="/portrait.jpg"
+          alt="Jacob Laramee"
+          width="140"
+          height="210"
+          class="rounded-full shadow-lg overflow-hidden mr-4 min-w-140"
+        />
+        <div class="flex flex-wrap flex-grow">
+          <h3 class="w-full text-3xl" transition:name="home-bio-title">My Bio</h3>
+          <span>Hey, thanks for stopping by! Intestested in learning more me, my background and what I enjoy? Happy to share - click on "About me" to learn more.</span>
+          <div class="self-end flex justify-end w-full">
+            <a
+              class="flex items-center font-medium p-3 dark:bg-slate-100 hover:dark:bg-slate-200 bg-slate-500 hover:bg-slate-400 shadow hover:dark:shadow-slate-100/50 focus:outline-none font-medium text-zinc-900 rounded"
+              href="/me"
+              ><span class="pr-2" transition:name="bio-title">About me</span><ArrowSvg width="1rem" height="1rem"/>
+            </a>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </main>
+</Layout>

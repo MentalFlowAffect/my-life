@@ -1,0 +1,55 @@
+---
+import GolfTeeSvg from "../../../components/GolfTeeSvg.astro";
+import ArrowSvg from "../../../components/ArrowSvg.astro";
+import Layout from "../../../layouts/Layout.astro";
+import Carousel from "../../../components/Carousel.astro";
+
+import { isLoggedIn } from "../../../utils/auth.js";
+
+const cookies = Astro.request.headers.get("cookie");
+if (!isLoggedIn(cookies)) {
+  return Astro.redirect("/signin");
+}
+
+// To-do: Move to content
+const myHobbies = [
+  { title: "Golfing", url: "/links.webp" },
+  { title: "My Gym", url: "/my-gym.jpg" },
+  { title: "Ari working out", url: "/ari-working-out.jpg" },
+  { title: "Me & Ari dog", url: "/me-and-ari.jpg" },
+  { title: "Micro Breweries", url: "/14th-star.svg" },
+  { title: "The kids", url: "/the-kids.jpg" },
+  { title: "General - Family Photo", url: "/family-photo.jpg" },
+  { title: "New England Cruise - Family Photo", url: "/ne-cruise-family-photo.jpg" },
+  { title: "Blueberry Picking - Family Photo", url: "/blueberry-picking.jpg" },
+];
+---
+
+<Layout title="My Hobbies">
+  <main class="flex justify-center p-4 w-100 dark:text-white">
+    <div class="flex flex-wrap w-3/4">
+      <div class="flex justify-between w-full py-2">
+        <a
+          href="/me/career"
+          class="py-2 pr-2 hover:underline flex items-center"
+        >
+          <ArrowSvg
+            width="1rem"
+            height="1rem"
+            classes="dark:fill-white rotate-180"
+          />
+          <span class="pl-2" transition:name="career">My Career</span>
+        </a>
+        <a href="/me" class="py-2 pr-2 hover:underline flex items-center">
+          <span class="pr-2" transition:name="bio-title">About me</span>
+          <ArrowSvg width="1rem" height="1rem" classes="dark:fill-white" />
+        </a>
+      </div>
+      <GolfTeeSvg width="2rem" height="2rem" classes="dark:fill-white" />
+      <h1 transition:name="hobbies" class="text-2xl pl-2">My Hobbies</h1>
+      <div class="w-full pt-4 px-2">
+        <Carousel items={myHobbies} />
+      </div>
+    </div>
+  </main>
+</Layout>

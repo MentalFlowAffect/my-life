@@ -1,0 +1,28 @@
+---
+interface Props {
+  items: Array<{ time: string; title: string; content: string }>;
+}
+
+const { items } = Astro.props as Props;
+---
+
+<ol class="relative border-l border-gray-200 dark:border-gray-500">
+  {
+    items.map((item) => {
+      return (
+        <li class="mb-10 ml-4">
+          <div class="absolute w-3 h-3 rounded-full mt-2 -left-1.5 border border-white dark:border-gray-200 bg-gray-200 dark:bg-white" />
+          <span class="mb-1 text-sm font-normal leading-none text-gray-700 dark:text-gray-400">
+            {item.time}
+          </time>
+          <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+            {item.title}
+          </h3>
+          <p class="mb-4 text-base font-normal text-gray-800 dark:text-gray-300">
+            {item.content}
+          </p>
+        </li>
+      );
+    })
+  }
+</ol>

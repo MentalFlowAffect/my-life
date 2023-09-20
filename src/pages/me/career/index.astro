@@ -1,0 +1,84 @@
+---
+import LaptopFileSvg from "../../../components/LaptopFileSvg.astro";
+import ArrowSvg from "../../../components/ArrowSvg.astro";
+import Layout from "../../../layouts/Layout.astro";
+import Timeline from "../../../components/Timeline.astro";
+
+import { isLoggedIn } from "../../../utils/auth.js";
+
+const cookies = Astro.request.headers.get("cookie");
+if (!isLoggedIn(cookies)) {
+  return Astro.redirect("/signin");
+}
+
+// To-do: Move to content
+const careerTimeline = [
+  {
+    time: "May 2012",
+    title: "Brueggers Bagels",
+    content: "My first job - worked as a bagel maker through out my second couple of years of higher ed. It's quite a humbling experience working in the service/restraunt industry - highly encourage all teens/young adults to work in this industry as a first job!.",
+  },
+  {
+    time: "August 2014",
+    title: "WageWorks",
+    content: "Started my several year journey into both business & benefit adminstration as a claims analyst. After about ~1 year I started as a data feed administrator - this is where my Salesforce journey kicked off! I performed my general duties, while simultaneously assisting my boss & working on Salesforce features. In ~2016, I formly started working as a Salesforce Software Engineer.",
+  },
+  {
+    time: "August 2019",
+    title: "HealthEquity",
+    content: "WageWorks was bought out by HealthEquity - my job as a Salesforce Software Engineer transfered over to the new company.",
+  },
+  {
+    time: "January 2020",
+    title: "ConnectYourCare",
+    content: "Continued my Salesforce development journey joining another health benefit administrator. Implemented both Sales Cloud, Experience Cloud (custom for onboarding new clients), & Service Cloud at this smaller business.",
+  },
+  {
+    time: "November 2020",
+    title: "Optum",
+    content: "ConnectYourCare was bought out by Optum, continued working here for just over a year.",
+  },
+  {
+    time: "January 2022",
+    title: "iRobot",
+    content: "Finally moved out of the health benefits space into e-Com. Worked on implementing Salesforce Order Management & Service Cloud.",
+  },
+  {
+    time: "October 2022",
+    title: "CrowdStrike",
+    content: "Joined CrowdStrike!",
+  },
+];
+---
+
+<Layout title="My Career">
+  <main class="flex justify-center p-4 w-100 dark:text-white">
+    <div class="flex flex-wrap w-3/4">
+      <div class="flex justify-between w-full py-2">
+        <a
+          href="/me/school"
+          class="py-2 pr-2 hover:underline flex items-center"
+        >
+          <ArrowSvg
+            width="1rem"
+            height="1rem"
+            classes="dark:fill-white rotate-180"
+          />
+          <span class="pl-2" transition:name="education">My Education</span>
+        </a>
+        <a
+          href="/me/hobbies"
+          class="py-2 pr-2 hover:underline flex items-center"
+        >
+          <span class="pr-2" transition:name="hobbies">My Hobbies</span>
+          <ArrowSvg width="1rem" height="1rem" classes="dark:fill-white" />
+        </a>
+      </div>
+      <LaptopFileSvg width="2rem" height="2rem" classes="dark:fill-white" />
+      <h1 transition:name="career" class="text-2xl pl-2">My Career</h1>
+      <div class="w-full pt-4 px-2">
+        <Timeline items={careerTimeline} />
+      </div>
+    </div>
+  </main>
+</Layout>
